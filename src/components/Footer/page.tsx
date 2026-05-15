@@ -1,69 +1,47 @@
 import { Link } from "react-router-dom";
 
 export default function Footer() {
+  const linkClass = "text-[#A5D6A7] text-[0.92rem] block mb-2 transition-all duration-300 hover:text-brand-fourth hover:pl-1";
+  const h4Class = "text-[0.9rem] font-semibold text-[#C8E6C9] mb-3 uppercase tracking-[0.5px]";
+
   return (
-    <footer className="bg-[#2E7D32] text-[#E8F5E9] px-8 pt-10 pb-5 mt-auto">
+    <footer className="bg-brand-primary text-[#E8F5E9] pt-10 pb-5 px-8 mt-auto">
       <div className="flex flex-wrap gap-8 justify-between max-w-[1200px] mx-auto mb-6">
 
         <div className="flex-1 min-w-[160px]">
-          <h2 className="text-xl font-bold text-white mb-4" style={{ fontFamily: "var(--font-heading)" }}>
-            🛒 FreshMart
-          </h2>
-          <p className="text-[#A5D6A7] text-sm leading-relaxed">
-            Your trusted online grocery store. Fresh produce, fast delivery, and unbeatable prices — every single day.
-          </p>
+          <h2 className="font-heading text-[1.3rem] text-white mb-4">🛒 FreshMart</h2>
+          <p className="text-[#A5D6A7] text-[0.88rem] leading-[1.6]">Your trusted online grocery store. Fresh produce, fast delivery, and unbeatable prices — every single day.</p>
         </div>
 
         <div className="flex-1 min-w-[160px]">
-          <h4 className="text-xs font-semibold text-[#C8E6C9] mb-3 uppercase tracking-wide">Quick Links</h4>
-          {[
-            { to: "/", label: "🏠 Home" },
-            { to: "/products", label: "🛍️ Products" },
-            { to: "/cart", label: "🛒 Cart" },
-            { to: "/dashboard", label: "📊 Dashboard" },
-            { to: "/login", label: "🔐 Login" },
-            { to: "/signup", label: "📝 Sign Up" },
-          ].map((link) => (
-            <Link
-              key={link.to}
-              to={link.to}
-              className="text-[#A5D6A7] text-sm block mb-2 hover:text-[#F9A825] hover:pl-1 transition-all"
-            >
-              {link.label}
-            </Link>
-          ))}
+          <h4 className={h4Class}>Quick Links</h4>
+          <Link to="/" className={linkClass}>🏠 Home</Link>
+          <Link to="/products" className={linkClass}>🛍️ Products</Link>
+          <Link to="/cart" className={linkClass}>🛒 Cart</Link>
+          <Link to="/dashboard" className={linkClass}>📊 Dashboard</Link>
+          <Link to="/login" className={linkClass}>🔐 Login</Link>
+          <Link to="/signup" className={linkClass}>📝 Sign Up</Link>
         </div>
 
         <div className="flex-1 min-w-[160px]">
-          <h4 className="text-xs font-semibold text-[#C8E6C9] mb-3 uppercase tracking-wide">Shop by Category</h4>
-          {[
-            { to: "/products?category=fruits", label: "🍎 Fruits" },
-            { to: "/products?category=vegetables", label: "🥦 Vegetables" },
-            { to: "/products?category=dairy", label: "🥛 Dairy" },
-            { to: "/products?category=bakery", label: "🍞 Bakery" },
-            { to: "/products?category=beverages", label: "🧃 Beverages" },
-            { to: "/products?category=snacks", label: "🍿 Snacks" },
-          ].map((link) => (
-            <Link
-              key={link.to}
-              to={link.to}
-              className="text-[#A5D6A7] text-sm block mb-2 hover:text-[#F9A825] hover:pl-1 transition-all"
-            >
-              {link.label}
-            </Link>
-          ))}
+          <h4 className={h4Class}>Company</h4>
+          <Link to="/teams" className={linkClass}>👥 Our Team</Link>
+          <Link to="/reviews" className={linkClass}>⭐ Reviews</Link>
+          <Link to="/profile" className={linkClass}>👤 Profile</Link>
+          <Link to="/products?category=fruits" className={linkClass}>🍎 Fruits</Link>
+          <Link to="/products?category=vegetables" className={linkClass}>🥦 Vegetables</Link>
         </div>
 
         <div className="flex-1 min-w-[160px]">
-          <h4 className="text-xs font-semibold text-[#C8E6C9] mb-3 uppercase tracking-wide">Contact Us</h4>
-          <p className="text-[#A5D6A7] text-sm mb-2">📍 123 Green Market Street, Lahore, Pakistan</p>
-          <p className="text-[#A5D6A7] text-sm mb-2">📞 +92 300 1234567</p>
-          <p className="text-[#A5D6A7] text-sm mb-2">✉️ hello@freshmart.pk</p>
-          <p className="text-[#A5D6A7] text-sm mb-2">🕐 Mon – Sat: 9am – 9pm</p>
+          <h4 className={h4Class}>Contact Us</h4>
+          <p className="text-[#A5D6A7] text-[0.88rem] leading-[1.6] mb-2">📍 123 Green Market Street, Lahore, Pakistan</p>
+          <p className="text-[#A5D6A7] text-[0.88rem] leading-[1.6] mb-2">📞 +92 300 1234567</p>
+          <p className="text-[#A5D6A7] text-[0.88rem] leading-[1.6] mb-2">✉️ hello@freshmart.pk</p>
+          <p className="text-[#A5D6A7] text-[0.88rem] leading-[1.6] mb-2">🕐 Mon – Sat: 9am – 9pm</p>
         </div>
 
       </div>
-      <p className="text-[#A5D6A7] text-xs text-center">© 2025 FreshMart. All rights reserved. Made with 💚 in Pakistan.</p>
+      <p className="text-[#A5D6A7] text-[0.88rem] leading-[1.6] text-center border-t border-white/10 pt-4 max-w-[1200px] mx-auto">© 2025 FreshMart. All rights reserved. Made with 💚 in Pakistan.</p>
     </footer>
   );
 }

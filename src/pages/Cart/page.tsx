@@ -33,12 +33,8 @@ export default function Cart() {
 
   const showAlert = (message: string, type: string) => {
     const alertBox = document.createElement("div");
+    alertBox.className = `fixed top-20 right-5 z-[9999] min-w-[220px] px-4 py-3 rounded-[6px] text-[0.92rem] shadow-[0_4px_16px_rgba(0,0,0,0.15)] flex items-center gap-2.5 ${type === "success" ? "bg-[#E8F5E9] text-[#2E7D32] border-l-4 border-brand-primary" : "bg-[#FFEBEE] text-[#C62828] border-l-4 border-brand-accent"}`;
     alertBox.textContent = message;
-    alertBox.className = `fixed top-20 right-5 z-[9999] min-w-[220px] px-4 py-3 rounded text-sm border-l-4 shadow-lg ${
-      type === "success"
-        ? "bg-[#E8F5E9] text-[#2E7D32] border-[#2E7D32]"
-        : "bg-[#FFEBEE] text-[#C62828] border-[#E53935]"
-    }`;
     document.body.appendChild(alertBox);
     setTimeout(() => alertBox.remove(), 3000);
   };
@@ -96,131 +92,115 @@ export default function Cart() {
   const discount = promoApplied ? Math.round(subtotal * 0.2) : 0;
   const total = subtotal + DELIVERY_FEE - discount;
 
+  const inputClass = "w-full font-body text-[0.95rem] px-3.5 py-2.5 border-[1.5px] border-border-muted rounded-md bg-bg-main text-text-primary transition-all duration-300 focus:outline-none focus:border-border-focus focus:bg-bg-card focus:shadow-[0_0_0_3px_rgba(46,125,50,0.12)]";
+  const lgButton = "font-body text-[1.05rem] font-medium px-8 py-3.5 border-2 border-transparent rounded-md bg-brand-primary text-white cursor-pointer transition-all duration-300 inline-flex items-center justify-center gap-2 hover:bg-brand-secondary hover:shadow-sm hover:-translate-y-px w-full";
+  const borderButton = "font-body text-[1.05rem] font-medium px-8 py-3.5 border-2 border-brand-primary rounded-md bg-transparent text-brand-primary cursor-pointer transition-all duration-300 hover:bg-brand-primary hover:text-white w-full text-center";
+  const borderButtonSm = "font-body text-[0.88rem] font-medium px-4 py-2 border-2 border-brand-primary rounded-md bg-transparent text-brand-primary cursor-pointer transition-all duration-300 hover:bg-brand-primary hover:text-white flex-shrink-0";
+
   return (
     <>
       <Navbar />
-      <main className="flex-1 px-6 py-9 max-w-[1200px] w-full mx-auto">
 
+      <main className="flex-1 px-6 py-9 max-w-[1200px] w-full mx-auto">
         <div className="flex flex-col items-center text-center mb-8">
-          <h2 className="text-2xl font-semibold text-[#1B1B1B] mb-1" style={{ fontFamily: "var(--font-heading)" }}>🛒 My Cart</h2>
-          <p className="text-sm text-[#7A7A7A]">Review your items and proceed to checkout when ready.</p>
+          <h2 className="font-heading text-brand-primary text-[clamp(1.4rem,3vw,2rem)] font-semibold leading-[1.3] mb-2.5">🛒 My Cart</h2>
+          <p className="text-text-muted max-w-[520px] text-[0.97rem] leading-[1.7]">Review your items and proceed to checkout when ready.</p>
         </div>
 
+        {/* EMPTY CART */}
         {cart.length === 0 ? (
-          <div className="text-center py-12 px-6 text-[#7A7A7A]">
-            <h3 className="text-lg font-semibold mb-2">🛒 Your cart is empty!</h3>
-            <p className="text-sm mb-4">Looks like you haven't added anything yet. Start shopping now!</p>
-            <button
-              onClick={() => navigate("/products")}
-              className="bg-[#2E7D32] text-white font-semibold py-3 px-8 rounded-xl border-none cursor-pointer hover:bg-[#66BB6A] hover:-translate-y-px transition-all"
-            >
+          <div className="text-center py-12 px-5 flex flex-col items-center gap-4">
+            <h3 className="font-heading text-[1.4rem] font-bold text-brand-primary m-0">🛒 Your cart is empty!</h3>
+            <p className="text-[0.97rem] text-text-secondary leading-[1.7] max-w-[400px]">Looks like you haven't added anything yet. Start shopping now!</p>
+            <button className="font-body text-[1.05rem] font-medium px-8 py-3.5 border-2 border-transparent rounded-md bg-brand-primary text-white cursor-pointer transition-all duration-300 inline-flex items-center justify-center gap-2 hover:bg-brand-secondary hover:shadow-sm hover:-translate-y-px mt-4" onClick={() => navigate("/products")}>
               Browse Products
             </button>
           </div>
         ) : (
-          <div className="flex gap-8 items-start flex-wrap">
+          <div className="flex flex-col lg:flex-row gap-8 items-start w-full">
 
-            {/* Cart Items */}
-            <div className="flex-1 min-w-[280px]">
+            {/* CART ITEMS */}
+            <div className="flex-1 flex flex-col w-full">
               {cart.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex flex-row items-center gap-5 bg-white border border-[#D8EDD8] rounded-xl px-5 py-4 mb-3 hover:shadow-sm hover:border-[#66BB6A] transition-all w-full"
-                >
-                  <img src={item.image} alt={item.name} className="w-22 h-22 object-cover rounded flex-shrink-0" style={{ width: 88, height: 88 }} />
-                  <div className="flex-1">
-                    <h3 className="text-base font-semibold text-[#3A3A3A] mb-1">{item.name}</h3>
-                    <p className="text-lg font-bold text-[#2E7D32] mb-2">Rs. {item.price}</p>
-                    <div className="flex items-center gap-2 mb-2">
-                      <button
-                        onClick={() => changeQty(index, -1)}
-                        className="bg-[#2E7D32] text-white font-medium px-3 py-1 rounded border-none cursor-pointer hover:bg-[#66BB6A] transition-all"
-                      >−</button>
-                      <span className="text-sm font-medium">{item.qty}</span>
-                      <button
-                        onClick={() => changeQty(index, 1)}
-                        className="bg-[#2E7D32] text-white font-medium px-3 py-1 rounded border-none cursor-pointer hover:bg-[#66BB6A] transition-all"
-                      >+</button>
+                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 bg-bg-card border border-border-muted rounded-md p-4 sm:p-5 mb-3 transition-all duration-300 w-full hover:shadow-sm hover:border-border-secondary" key={index}>
+                  <img src={item.image} alt={item.name} className="w-[88px] h-[88px] object-cover rounded-sm shrink-0" />
+                  <div className="flex-1 flex flex-col gap-2 w-full text-center sm:text-left">
+                    <h3 className="font-body text-[1.15rem] font-semibold text-text-secondary m-0">{item.name}</h3>
+                    <p className="text-brand-primary font-bold text-[1.1rem] m-0">Rs. {item.price}</p>
+                    <div className="flex items-center justify-center sm:justify-start gap-3 mt-1 mb-2">
+                      <button className="w-8 h-8 rounded-full border border-border-muted bg-bg-main text-text-primary flex items-center justify-center cursor-pointer hover:bg-border-muted" onClick={() => changeQty(index, -1)}>−</button>
+                      <span className="font-medium min-w-[20px] text-center">{item.qty}</span>
+                      <button className="w-8 h-8 rounded-full border border-border-muted bg-bg-main text-text-primary flex items-center justify-center cursor-pointer hover:bg-border-muted" onClick={() => changeQty(index, 1)}>+</button>
                     </div>
-                    <p className="text-sm text-[#3A3A3A]">Item Total: <strong>Rs. {item.price * item.qty}</strong></p>
+                    <p className="text-[0.9rem] text-text-secondary m-0">Item Total: <strong>Rs. {item.price * item.qty}</strong></p>
                   </div>
-                  <button
-                    onClick={() => removeItem(index)}
-                    className="bg-transparent border-2 border-[#2E7D32] text-[#2E7D32] font-medium px-3 py-1 text-sm rounded cursor-pointer hover:bg-[#2E7D32] hover:text-white transition-all"
-                  >
+                  <button className={borderButtonSm} onClick={() => removeItem(index)}>
                     🗑️ Remove
                   </button>
                 </div>
               ))}
             </div>
 
-            {/* Order Summary */}
-            <div className="bg-white border border-[#D8EDD8] rounded-xl p-6 min-w-[260px] shadow-sm flex flex-col gap-4">
-              <h2 className="text-xl font-semibold text-[#1B1B1B]" style={{ fontFamily: "var(--font-heading)" }}>Order Summary</h2>
+            {/* ORDER SUMMARY */}
+            <div className="bg-bg-card border border-border-muted rounded-xl p-8 w-full lg:w-[380px] shadow-sm flex flex-col gap-5 lg:sticky lg:top-24 shrink-0">
+              <h2 className="font-heading text-[1.4rem] font-semibold text-brand-primary m-0 border-b border-border-muted pb-4">Order Summary</h2>
 
-              {[
-                { label: "Subtotal", value: `Rs. ${subtotal}` },
-                { label: "Delivery Fee", value: `Rs. ${DELIVERY_FEE}` },
-                { label: "Discount", value: `− Rs. ${discount}` },
-              ].map((row) => (
-                <div key={row.label} className="flex justify-between items-center text-sm">
-                  <p className="text-[#3A3A3A]">{row.label}</p>
-                  <span className="text-[#3A3A3A]">{row.value}</span>
+              <div className="flex flex-col gap-3">
+                <div className="flex justify-between items-center text-[0.95rem] text-text-secondary">
+                  <p className="m-0">Subtotal</p>
+                  <span className="font-medium">Rs. {subtotal}</span>
                 </div>
-              ))}
-
-              <div className="flex justify-between items-center text-sm border-t border-[#D8EDD8] pt-3">
-                <p className="font-bold text-[#1B1B1B]">Total</p>
-                <span className="font-bold text-[#1B1B1B]">Rs. {total}</span>
+                <div className="flex justify-between items-center text-[0.95rem] text-text-secondary">
+                  <p className="m-0">Delivery Fee</p>
+                  <span className="font-medium">Rs. {DELIVERY_FEE}</span>
+                </div>
+                <div className="flex justify-between items-center text-[0.95rem] text-text-secondary">
+                  <p className="m-0">Discount</p>
+                  <span className="font-medium text-brand-accent">− Rs. {discount}</span>
+                </div>
+                <div className="flex justify-between items-center text-[1.1rem] text-text-primary border-t border-border-muted pt-3 mt-1">
+                  <p className="m-0 font-bold">Total</p>
+                  <span className="font-bold text-brand-primary">Rs. {total}</span>
+                </div>
               </div>
 
-              <input
-                type="text"
-                placeholder="Enter promo code..."
-                value={promoInput}
-                onChange={(e) => setPromoInput(e.target.value)}
-                className="w-full text-sm px-3 py-2 border-[1.5px] border-[#D8EDD8] rounded bg-[#F4FAF4] text-[#1B1B1B] outline-none focus:border-[#2E7D32] transition-all"
-              />
-              <button
-                onClick={applyPromo}
-                className="bg-transparent border-2 border-[#2E7D32] text-[#2E7D32] font-medium px-4 py-2 rounded cursor-pointer hover:bg-[#2E7D32] hover:text-white transition-all"
-              >
-                Apply Promo Code
-              </button>
+              <div className="flex flex-col gap-3 mt-2">
+                <input
+                  type="text"
+                  placeholder="Enter promo code..."
+                  value={promoInput}
+                  onChange={(e) => setPromoInput(e.target.value)}
+                  className={inputClass}
+                />
+                <button className={borderButton} onClick={applyPromo}>
+                  Apply Promo Code
+                </button>
+              </div>
 
               {promoAlert && (
-                <div className={`flex items-center gap-2 px-3 py-2 rounded text-sm border-l-4 ${
-                  promoAlertType === "success"
-                    ? "bg-[#E8F5E9] text-[#2E7D32] border-[#2E7D32]"
-                    : "bg-[#FFEBEE] text-[#C62828] border-[#E53935]"
-                }`}>
+                <div className={`p-3 rounded-md text-[0.92rem] flex items-center gap-2.5 ${promoAlertType === "success" ? "bg-[#E8F5E9] text-[#2E7D32] border-l-4 border-brand-primary" : "bg-[#FFEBEE] text-[#C62828] border-l-4 border-brand-accent"}`}>
                   {promoAlert}
                 </div>
               )}
 
-              <button
-                onClick={checkout}
-                className="bg-[#2E7D32] text-white font-semibold py-3 px-8 rounded-xl border-none cursor-pointer hover:bg-[#66BB6A] hover:-translate-y-px transition-all"
-              >
-                Proceed to Checkout →
-              </button>
+              <div className="flex flex-col gap-3 mt-2">
+                <button className={lgButton} onClick={checkout}>
+                  Proceed to Checkout →
+                </button>
 
-              <button
-                onClick={clearCart}
-                className="bg-transparent border-2 border-[#2E7D32] text-[#2E7D32] font-medium px-4 py-2 rounded cursor-pointer hover:bg-[#2E7D32] hover:text-white transition-all"
-              >
-                🗑️ Clear Cart
-              </button>
+                <button className={borderButton} onClick={clearCart}>
+                  🗑️ Clear Cart
+                </button>
+              </div>
 
-              <a href="/products" className="text-[#2E7D32] font-medium underline text-sm text-center hover:text-[#66BB6A] hover:no-underline transition-all">
-                ← Continue Shopping
-              </a>
+              <a href="/products" className="bg-transparent border-none text-brand-primary font-medium p-0 cursor-pointer underline text-[0.95rem] text-center w-full block hover:text-brand-secondary hover:no-underline mt-2">← Continue Shopping</a>
             </div>
 
           </div>
         )}
 
       </main>
+
       <Footer />
     </>
   );

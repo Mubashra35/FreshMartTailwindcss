@@ -1,18 +1,124 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
 @import "tailwindcss";
 
-@theme {
-  --font-heading: 'Playfair Display', Georgia, serif;
-  --font-body: 'DM Sans', sans-serif;
+:root {
   --color-brand-primary: #2E7D32;
   --color-brand-secondary: #66BB6A;
   --color-brand-third: #A5D6A7;
+  --color-brand-fourth: #F9A825;
   --color-brand-accent: #E53935;
-  --color-brand-yellow: #F9A825;
   --color-bg-main: #F4FAF4;
   --color-bg-card: #FFFFFF;
   --color-text-primary: #1B1B1B;
   --color-text-secondary: #3A3A3A;
   --color-text-muted: #7A7A7A;
+  --color-text-focus: #2E7D32;
+  --color-text-highlighted: #F9A825;
+  --color-border-primary: #2E7D32;
+  --color-border-secondary: #66BB6A;
   --color-border-muted: #D8EDD8;
+  --color-border-focus: #2E7D32;
+  --color-border-highlighted: #F9A825;
+  --color-table-row-odd: #F0F7F0;
+  --color-table-row-even: #FFFFFF;
+  --color-table-row-hover: #C8E6C9;
+  --color-table-header-bg: #2E7D32;
+  --color-table-header-text: #FFFFFF;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', sans-serif;
+  --shadow-sm: 0 2px 8px rgba(46, 125, 50, 0.08);
+  --shadow-md: 0 4px 20px rgba(46, 125, 50, 0.14);
+  --shadow-lg: 0 8px 32px rgba(46, 125, 50, 0.18);
+  --transition: 0.3s ease;
+}
+
+[data-theme="dark"] {
+  --color-bg-main: #121A12;
+  --color-bg-card: #1E2B1E;
+  --color-text-primary: #E8F5E9;
+  --color-text-secondary: #C8E6C9;
+  --color-text-muted: #81C784;
+  --color-text-focus: #A5D6A7;
+  --color-text-highlighted: #F9A825;
+  --color-border-primary: #388E3C;
+  --color-border-secondary: #66BB6A;
+  --color-border-muted: #2A3D2A;
+  --color-border-focus: #66BB6A;
+  --color-border-highlighted: #F9A825;
+  --color-table-row-odd: #1A2E1A;
+  --color-table-row-even: #1E2B1E;
+  --color-table-row-hover: #2E4A2E;
+  --color-table-header-bg: #1B5E20;
+  --color-table-header-text: #E8F5E9;
+}
+
+@theme {
+  --color-brand-primary: var(--color-brand-primary);
+  --color-brand-secondary: var(--color-brand-secondary);
+  --color-brand-third: var(--color-brand-third);
+  --color-brand-fourth: var(--color-brand-fourth);
+  --color-brand-accent: var(--color-brand-accent);
+
+  --color-bg-main: var(--color-bg-main);
+  --color-bg-card: var(--color-bg-card);
+
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted: var(--color-text-muted);
+  --color-text-focus: var(--color-text-focus);
+  --color-text-highlighted: var(--color-text-highlighted);
+
+  --color-border-primary: var(--color-border-primary);
+  --color-border-secondary: var(--color-border-secondary);
+  --color-border-muted: var(--color-border-muted);
+  --color-border-focus: var(--color-border-focus);
+  --color-border-highlighted: var(--color-border-highlighted);
+
+  --color-table-odd: var(--color-table-row-odd);
+  --color-table-even: var(--color-table-row-even);
+  --color-table-hover: var(--color-table-row-hover);
+  --color-table-headerBg: var(--color-table-header-bg);
+  --color-table-headerText: var(--color-table-header-text);
+
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+
+  --default-transition: var(--transition);
+}
+
+@layer base {
+
+  *,
+  *::before,
+  *::after {
+    @apply box-border m-0 p-0;
+  }
+
+  body {
+    @apply font-body bg-bg-main text-text-primary min-h-screen flex flex-col;
+    line-height: 1.6;
+  }
+
+  a {
+    @apply no-underline text-inherit transition-all duration-300 ease-in-out;
+  }
+
+  ul {
+    @apply list-none;
+  }
+
+  img {
+    @apply max-w-full block;
+  }
 }
